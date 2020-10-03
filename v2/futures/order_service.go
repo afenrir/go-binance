@@ -179,6 +179,7 @@ type CreateOrderResponse struct {
 	OrigQuantity     string           `json:"origQty"`
 	ExecutedQuantity string           `json:"executedQty"`
 	CumQuote         string           `json:"cumQuote"`
+	CumQuantity      string           `json:"cumQty"`
 	ReduceOnly       bool             `json:"reduceOnly"`
 	Status           OrderStatusType  `json:"status"`
 	StopPrice        string           `json:"stopPrice"`

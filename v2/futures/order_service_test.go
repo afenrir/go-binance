@@ -22,6 +22,7 @@ func (s *orderServiceTestSuite) TestCreateOrder() {
 	data := []byte(`{
 		"clientOrderId": "testOrder",
 		"cumQuote": "0",
+		"cumQty": "0",
 		"executedQty": "0",
 		"orderId": 22542179,
 		"origQty": "10",
@@ -84,6 +85,7 @@ func (s *orderServiceTestSuite) TestCreateOrder() {
 	e := &CreateOrderResponse{
 		ClientOrderID:    newClientOrderID,
 		CumQuote:         "0",
+		CumQuantity:      "0",
 		ExecutedQuantity: "0",
 		OrderID:          22542179,
 		OrigQuantity:     "10",
@@ -108,6 +110,7 @@ func (s *baseOrderTestSuite) assertCreateOrderResponseEqual(e, a *CreateOrderRes
 	r := s.r()
 	r.Equal(e.ClientOrderID, a.ClientOrderID, "ClientOrderID")
 	r.Equal(e.CumQuote, a.CumQuote, "CumQuote")
+	r.Equal(e.CumQuantity, a.CumQuantity, "CumQuantity")
 	r.Equal(e.ExecutedQuantity, a.ExecutedQuantity, "ExecutedQuantity")
 	r.Equal(e.OrderID, a.OrderID, "OrderID")
 	r.Equal(e.OrigQuantity, a.OrigQuantity, "OrigQuantity")
