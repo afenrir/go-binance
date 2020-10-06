@@ -643,6 +643,57 @@ func (s *orderServiceTestSuite) TestCancelOrder() {
 	s.assertCancelOrderResponseEqual(e, res)
 }
 
+func (s *orderServiceTestSuite) TestCancelOpenOrders() {
+	data := []byte(`[
+		{
+			"symbol": "BTCUSDT",
+			"origClientOrderId": "E6APeyTJvkMvLMYMqu1KQ4",
+			"orderId": 11,
+			"orderListId": -1,
+			"clientOrderId": "pXLV6Hz6mprAcVYpVMTGgx",
+			"price": "0.089853",
+			"origQty": "0.178622",
+			"executedQty": "0.000000",
+			"cummulativeQuoteQty": "0.000000",
+			"status": "CANCELED",
+			"timeInForce": "GTC",
+			"type": "LIMIT",
+			"side": "BUY"
+	  	}
+	]`)
+	s.mockDo(data, nil)
+	defer s.assertDo()
+
+	symbol := "BTCUSDT"
+	s.assertReq(func(r *request) {
+		e := newSignedRequest().setParams(params{
+			"symbol": symbol,
+		})
+		s.assertRequestEqual(e, r)
+	})
+
+	res, err := s.client.NewCancelOpenOrdersService().Symbol(symbol).Do(newContext())
+	r := s.r()
+	r.NoError(err)
+	r.Len(res, 1)
+	e := &CancelOrderResponse{
+		Symbol:                   "BTCUSDT",
+		OrigClientOrderID:        "E6APeyTJvkMvLMYMqu1KQ4",
+		OrderID:                  11,
+		ClientOrderID:            "pXLV6Hz6mprAcVYpVMTGgx",
+		Price:                    "0.089853",
+		OrigQuantity:             "0.178622",
+		ExecutedQuantity:         "0.000000",
+		CummulativeQuoteQuantity: "0.000000",
+		Status:                   OrderStatusTypeCanceled,
+		TimeInForce:              TimeInForceTypeGTC,
+		Type:                     OrderTypeLimit,
+		Side:                     SideTypeBuy,
+		TransactTime:             0,
+	}
+	s.assertCancelOrderResponseEqual(e, res[0])
+}
+
 func (s *baseOrderTestSuite) assertCancelOrderResponseEqual(e, a *CancelOrderResponse) {
 	r := s.r()
 	r.Equal(e.Symbol, a.Symbol, "Symbol")

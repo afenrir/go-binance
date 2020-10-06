@@ -603,6 +603,38 @@ func (s *CancelOrderService) Do(ctx context.Context, opts ...RequestOption) (res
 	return res, nil
 }
 
+// CancelOpenOrdersService cancel opened orders
+type CancelOpenOrdersService struct {
+	c      *Client
+	symbol string
+}
+
+// Symbol set symbol
+func (s *CancelOpenOrdersService) Symbol(symbol string) *CancelOpenOrdersService {
+	s.symbol = symbol
+	return s
+}
+
+// Do send request
+func (s *CancelOpenOrdersService) Do(ctx context.Context, opts ...RequestOption) (res []*CancelOrderResponse, err error) {
+	r := &request{
+		method:   "DELETE",
+		endpoint: "/api/v3/openOrders",
+		secType:  secTypeSigned,
+	}
+	r.setParam("symbol", s.symbol)
+	data, err := s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return []*CancelOrderResponse{}, err
+	}
+	res = make([]*CancelOrderResponse, 0)
+	err = json.Unmarshal(data, &res)
+	if err != nil {
+		return []*CancelOrderResponse{}, err
+	}
+	return res, nil
+}
+
 // CancelOrderResponse define response of canceling order
 type CancelOrderResponse struct {
 	Symbol                   string          `json:"symbol"`
