@@ -221,9 +221,10 @@ func (s *dustTransferTestSuite) TestTransfer() {
 	defer s.assertDo()
 	asset := []string{"ETH", "LTC", "TRX"}
 	s.assertReq(func(r *request) {
-		e := newSignedRequest().setFormParams(params{
-			"asset": asset,
-		})
+		e := newSignedRequest()
+		for _, a := range asset {
+			e.addParam("asset", a)
+		}
 		s.assertRequestEqual(e, r)
 	})
 	res, err := s.client.NewDustTransferService().Asset(asset).Do(newContext())
