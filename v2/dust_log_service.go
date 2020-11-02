@@ -91,10 +91,9 @@ func (s *DustTransferService) Do(ctx context.Context) (withdraws *DustTransferRe
 		endpoint: "/sapi/v1/asset/dust",
 		secType:  secTypeSigned,
 	}
-	m := params{
-		"asset": s.asset,
+	for _, a := range s.asset {
+		r.addParam("asset", a)
 	}
-	r.setFormParams(m)
 	data, err := s.c.callAPI(ctx, r)
 	if err != nil {
 		return
