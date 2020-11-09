@@ -86,4 +86,6 @@ type IncomeHistory struct {
 	Info       string `json:"info"`
 	Symbol     string `json:"symbol"`
 	Time       int64  `json:"time"`
+	TranID     int64  `json:"tranId"`
+	TradeID    int64  `json:"tradeId"`
 }
