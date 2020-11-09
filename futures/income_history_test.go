@@ -27,8 +27,8 @@ func (s *incomeHistoryServiceTestSuite) TestIncomeHistory() {
 			"asset": "USDT",
 			"info":"",  
 			"time": 1570636800000,
-			"tranId":"9689322392",
-			"tradeId":"2059192"
+			"tranId":9689322392,
+			"tradeId":2059192
 		}
 	]`)
 	s.mockDo(data, nil)
@@ -55,8 +55,8 @@ func (s *incomeHistoryServiceTestSuite) TestIncomeHistory() {
 		Symbol:     "BTCUSDT",
 		Time:       1578047897183,
 		IncomeType: "COMMISSION",
-		TranID:     "9689322392",
-		TradeID:    "2059192",
+		TranID:     9689322392,
+		TradeID:    2059192,
 	}
 	s.assertOrderEqual(e, orders[0])
 }
